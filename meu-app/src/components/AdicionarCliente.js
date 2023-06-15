@@ -28,7 +28,7 @@ const AdicionarCliente = () => {
       })
       .then((response) => {
         console.log(response);
-        navigate("/clientes");
+        navigate("/");
       })
       .catch((error) => {
         console.error("Algo deu errado!", error);
