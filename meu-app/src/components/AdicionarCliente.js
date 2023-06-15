@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import "./AdicionarCliente.css";
 
 const AdicionarCliente = () => {
   const [cliente, setCliente] = useState({
@@ -7,17 +9,26 @@ const AdicionarCliente = () => {
     email: "",
     telefone: "",
   });
-
+  const navigate = useNavigate();
   const handleChange = (e) => {
     setCliente({ ...cliente, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    // Obtenha o token de acesso do local storage ou de qualquer outra forma que você esteja usando
+    const accessToken = localStorage.getItem("access_token");
+
     axios
-      .post("http://localhost:8000/clientes/", cliente)
+      .post("http://localhost:8000/clientes/", cliente, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
       .then((response) => {
         console.log(response);
+        navigate("/clientes");
       })
       .catch((error) => {
         console.error("Algo deu errado!", error);
@@ -25,7 +36,7 @@ const AdicionarCliente = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <h1>Adicionar Cliente</h1>
       <form onSubmit={handleSubmit}>
         <label>
@@ -55,8 +66,9 @@ const AdicionarCliente = () => {
             onChange={handleChange}
           />
         </label>
-        <button type="submit">Adicionar</button>
+        <button className="save-button" type="submit">Adicionar</button>
       </form>
+      <button className="back-button" onClick={() => navigate(-1)}>Voltar</button>
     </div>
   );
 };

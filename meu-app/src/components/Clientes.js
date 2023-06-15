@@ -1,51 +1,67 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Link } from "react-router-dom";
+import api from './api';
+import ItemCliente from './ItemCliente';
+import { useNavigate } from 'react-router-dom';
+import './Clientes.css';
 
 const Clientes = () => {
   const [clientes, setClientes] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:8000/clientes/')
-      .then(response => {
+    const fetchClientes = async () => {
+      try {
+        const response = await api.get('/clientes/');
         setClientes(response.data);
-      })
-      .catch(error => {
-        console.error('Algo deu errado!', error);
-      });
-  }, []);
+        setIsLoading(false);
+      } catch (error) {
+        console.log('Erro ao buscar clientes:', error);
+        setError('Ocorreu um erro ao buscar os clientes.');
+        setIsLoading(false);
+      }
+    };
 
-  const handleDelete = id => {
-    axios.delete(`http://localhost:8000/clientes/${id}/`)
-      .then(response => {
-        // Após a exclusão bem-sucedida, recarregue os clientes para atualizar a lista
-        axios.get('http://localhost:8000/clientes/')
-          .then(response => {
-            setClientes(response.data);
-          })
-          .catch(error => {
-            console.error('Algo deu errado!', error);
-          });
-      })
-      .catch(error => {
-        console.error('Algo deu errado!', error);
-      });
+    fetchClientes();
+  }, [navigate]);
+
+  const handleDelete = async (id) => {
+    try {
+      await api.delete(`/clientes/${id}/`);
+
+      const response = await api.get('/clientes/');
+      setClientes(response.data);
+    } catch (error) {
+      console.error('Algo deu errado!', error);
+    }
   };
 
+  const handleAddCliente = () => {
+    navigate('/adicionar');
+  };
+
+  if (isLoading) {
+    return <div>Carregando clientes...</div>;
+  }
+
+  if (error) {
+    return <div>Ocorreu um erro ao buscar os clientes: {error}</div>;
+  }
+
   return (
-    <div>
-      <h1>Clientes</h1>
-      {clientes.map(cliente => (
-        <div key={cliente.id}>
-          <h2>{cliente.nome_completo}</h2>
-          <p>{cliente.email}</p>
-          <p>{cliente.telefone}</p>
-          <button onClick={() => handleDelete(cliente.id)}>Excluir</button>
-          <Link to={`/editar/${cliente.id}`}>Editar</Link>
-        </div>
-      ))}
+    <div className="clientes">
+      <h1 className="clientes__titulo">Clientes</h1>
+      <button className="clientes__botao-adicionar" onClick={handleAddCliente}>
+        Cadastrar novo cliente
+      </button>
+      <div className="clientes__lista">
+        {clientes.map((cliente) => (
+          <ItemCliente key={cliente.id} cliente={cliente} handleDelete={handleDelete} />
+        ))}
+      </div>
     </div>
   );
-}
+};
 
 export default Clientes;

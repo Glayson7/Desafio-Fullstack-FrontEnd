@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
+
+.item-cliente__botoes button {
+  color: #ffffff;
+  background-color: #6D7F8D;
+  border: none;
+  border-radius: 3px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 5px;
+}
+
+.item-cliente {
+  font-family: 'Roboto', sans-serif;
+}
+
+.item-cliente h2 {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.item-cliente p {
+  font-size: 1rem;
+  color: #666;
+}
+
+.item-cliente__botoes button:hover {
+  background-color: #5C6D7C;
+}
+
+.item-cliente__botoes .excluir {
+  background-color: #B83227;
+}
+
+.item-cliente__botoes .excluir:hover {
+  background-color: #9A2E24;
+}
+
+.item-cliente__botoes .editar {
+  background-color: #F0A500;
+}
+
+.item-cliente__botoes .editar:hover {
+  background-color: #D49200;
+}
+
+.item-cliente__botoes .ver {
+  background-color: #247BA0;
+}
+
+.item-cliente__botoes .ver:hover {
+  background-color: #1E6A8D;
+}
+
+.item-cliente__botoes .adicionar {
+  background-color: #02C39A;
+}
+
+.item-cliente__botoes .adicionar:hover {
+  background-color: #01A884;
+}

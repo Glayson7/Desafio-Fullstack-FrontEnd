@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import "./EditarCliente.css";
+
 
 const EditarCliente = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [cliente, setCliente] = useState({
     nome_completo: "",
     email: "",
@@ -31,15 +34,19 @@ const EditarCliente = () => {
       .put(`http://localhost:8000/clientes/${id}/`, cliente)
       .then((response) => {
         console.log(response);
-        // Você pode querer fazer algo aqui, como redirecionar para a lista de clientes
+        navigate("/");
       })
       .catch((error) => {
         console.error("Algo deu errado!", error);
       });
   };
 
+  const handleVoltar = () => {
+    navigate(-1); // Redireciona para a página anterior
+  };
+
   return (
-    <div>
+    <div className="container">
       <h1>Editar Cliente</h1>
       <form onSubmit={handleSubmit}>
         <label>
@@ -69,8 +76,9 @@ const EditarCliente = () => {
             onChange={handleChange}
           />
         </label>
-        <button type="submit">Salvar</button>
+        <button className="save-button" type="submit">Salvar</button>
       </form>
+      <button className="back-button" onClick={handleVoltar}>Voltar</button>
     </div>
   );
 };
