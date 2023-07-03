@@ -3,19 +3,18 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import "./EditarCliente.css";
 
-
 const EditarCliente = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [cliente, setCliente] = useState({
-    nome_completo: "",
+    name: "",
     email: "",
-    telefone: "",
+    phone: "",
   });
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/clientes/${id}/`)
+      .get(`http://localhost:8000/client/${id}`)
       .then((response) => {
         setCliente(response.data);
       })
@@ -31,7 +30,7 @@ const EditarCliente = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .put(`http://localhost:8000/clientes/${id}/`, cliente)
+      .put(`http://localhost:8000/client/${id}`, cliente)
       .then((response) => {
         console.log(response);
         navigate("/");
@@ -42,7 +41,7 @@ const EditarCliente = () => {
   };
 
   const handleVoltar = () => {
-    navigate(-1); // Redireciona para a página anterior
+    navigate(-1);
   };
 
   return (
@@ -53,8 +52,8 @@ const EditarCliente = () => {
           Nome completo:
           <input
             type="text"
-            name="nome_completo"
-            value={cliente.nome_completo}
+            name="name"
+            value={cliente.name}
             onChange={handleChange}
           />
         </label>
@@ -71,14 +70,18 @@ const EditarCliente = () => {
           Telefone:
           <input
             type="tel"
-            name="telefone"
-            value={cliente.telefone}
+            name="phone"
+            value={cliente.phone}
             onChange={handleChange}
           />
         </label>
-        <button className="save-button" type="submit">Salvar</button>
+        <button className="save-button" type="submit">
+          Salvar
+        </button>
       </form>
-      <button className="back-button" onClick={handleVoltar}>Voltar</button>
+      <button className="back-button" onClick={handleVoltar}>
+        Voltar
+      </button>
     </div>
   );
 };

@@ -5,25 +5,26 @@ import "./Contatos.css";
 
 const Contatos = () => {
   const [contatos, setContatos] = useState([]);
-  const [cliente, setCliente] = useState(null); // Adicionado estado para o cliente
+  const [cliente, setCliente] = useState(null);
   const { idCliente } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/clientes/${idCliente}/contatos/`)
+      .get(`http://localhost:8000/client/${idCliente}/contacts`)
       .then((response) => {
-        setContatos(response.data);
-      })
-      .catch((error) => {
-        console.error("Algo deu errado!", error);
-      });
-
-    // Solicitação para obter os detalhes do cliente
-    axios
-      .get(`http://localhost:8000/clientes/${idCliente}/`)
-      .then((response) => {
-        setCliente(response.data);
+        console.log(response.data);
+        if (response.data && typeof response.data === "object") {
+          setCliente(response.data);
+          // Extrair contatos da resposta da API e configurá-los no estado.
+          if (Array.isArray(response.data.contacts)) {
+            setContatos(response.data.contacts);
+          } else {
+            console.error("Contatos não são um array", response.data.contacts);
+          }
+        } else {
+          console.error("A resposta da API não é um objeto", response.data);
+        }
       })
       .catch((error) => {
         console.error("Algo deu errado!", error);
@@ -31,33 +32,34 @@ const Contatos = () => {
   }, [idCliente]);
 
   const handleVoltar = () => {
-    navigate(-1); // Redireciona para a página anterior
+    navigate(-1);
   };
 
   return (
     <div className="contatos">
       <h1 className="contatos__titulo">
-        Contatos de  <span>{cliente ? cliente.nome_completo : ""}</span>
+        Contatos de <span>{cliente ? cliente.name : ""}</span>
       </h1>
-      {contatos.map((contato) => (
-        <div key={contato.id} className="contatos__card">
-          <h2 className="contatos__nome">{contato.nome_completo}</h2>
-          <p className="contatos__email">{contato.email}</p>
-          <p className="contatos__telefone">{contato.telefone}</p>
-          <Link
-            to={`/clientes/${idCliente}/contatos/${contato.id}/editar/`}
-            className="contatos__link"
-          >
-            Editar
-          </Link>{" "}
-          <Link
-            to={`/clientes/${idCliente}/contatos/${contato.id}/excluir/`}
-            className="contatos__link"
-          >
-            Excluir
-          </Link>
-        </div>
-      ))}
+      {Array.isArray(contatos) &&
+        contatos.map((contato) => (
+          <div key={contato.id} className="contatos__card">
+            <h2 className="contatos__nome">{contato.name}</h2>
+            <p className="contatos__email">{contato.email}</p>
+            <p className="contatos__telefone">{contato.phone}</p>
+            <Link
+              to={`/clientes/${idCliente}/contatos/${contato.id}/editar/`}
+              className="contatos__link"
+            >
+              Editar
+            </Link>{" "}
+            <Link
+              to={`/clientes/${idCliente}/contatos/${contato.id}/excluir/`}
+              className="contatos__link"
+            >
+              Excluir
+            </Link>
+          </div>
+        ))}
       <button className="contatos__botao-voltar" onClick={handleVoltar}>
         Voltar
       </button>

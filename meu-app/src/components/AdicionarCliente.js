@@ -5,9 +5,9 @@ import "./AdicionarCliente.css";
 
 const AdicionarCliente = () => {
   const [cliente, setCliente] = useState({
-    nome_completo: "",
+    name: "",
     email: "",
-    telefone: "",
+    phone: "",
   });
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -16,16 +16,9 @@ const AdicionarCliente = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    // Obtenha o token de acesso do local storage ou de qualquer outra forma que você esteja usando
-    const accessToken = localStorage.getItem("access_token");
 
     axios
-      .post("http://localhost:8000/clientes/", cliente, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
+      .post("http://localhost:8000/client", cliente, {})
       .then((response) => {
         console.log(response);
         navigate("/");
@@ -43,8 +36,8 @@ const AdicionarCliente = () => {
           Nome completo:
           <input
             type="text"
-            name="nome_completo"
-            value={cliente.nome_completo}
+            name="name"
+            value={cliente.name}
             onChange={handleChange}
           />
         </label>
@@ -58,17 +51,21 @@ const AdicionarCliente = () => {
           />
         </label>
         <label>
-          Telefone:
+          phone:
           <input
             type="tel"
-            name="telefone"
-            value={cliente.telefone}
+            name="phone"
+            value={cliente.phone}
             onChange={handleChange}
           />
         </label>
-        <button className="save-button" type="submit">Adicionar</button>
+        <button className="save-button" type="submit">
+          Adicionar
+        </button>
       </form>
-      <button className="back-button" onClick={() => navigate(-1)}>Voltar</button>
+      <button className="back-button" onClick={() => navigate(-1)}>
+        Voltar
+      </button>
     </div>
   );
 };

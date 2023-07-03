@@ -3,16 +3,14 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import "./AdicionarContato.css";
 
-
 const AdicionarContato = () => {
   const { idCliente } = useParams();
   const navigate = useNavigate();
-  
+
   const [contato, setContato] = useState({
-    cliente: idCliente,
-    nome_completo: "",
+    name: "",
     email: "",
-    telefone: "",
+    phone: "",
   });
 
   const handleChange = (e) => {
@@ -22,7 +20,7 @@ const AdicionarContato = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post(`http://localhost:8000/clientes/${idCliente}/contatos/`, contato)
+      .post(`http://localhost:8000/client/${idCliente}/contact`, contato)
       .then((response) => {
         console.log(response);
         navigate("/");
@@ -44,8 +42,8 @@ const AdicionarContato = () => {
           Nome completo:
           <input
             type="text"
-            name="nome_completo"
-            value={contato.nome_completo}
+            name="name"
+            value={contato.name}
             onChange={handleChange}
           />
         </label>
@@ -62,8 +60,8 @@ const AdicionarContato = () => {
           Telefone:
           <input
             type="tel"
-            name="telefone"
-            value={contato.telefone}
+            name="phone"
+            value={contato.phone}
             onChange={handleChange}
           />
         </label>

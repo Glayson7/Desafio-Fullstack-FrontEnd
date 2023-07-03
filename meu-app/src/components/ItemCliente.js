@@ -10,17 +10,31 @@ const ItemCliente = ({ cliente, handleDelete }) => {
 
   return (
     <div className="item-cliente">
-      <h2>{cliente.nome_completo}</h2>
+      <h2>{cliente.name}</h2>
       <p>{cliente.email}</p>
-      <p>{cliente.telefone}</p>
+      <p>{cliente.phone}</p>
       <div className="item-cliente__botoes">
-        <button className="excluir" onClick={() => handleDelete(cliente.id)}>Excluir</button>
-        <button className="editar" onClick={() => navigate(`/editar/${cliente.id}`)}>Editar</button>
-        <button className="ver" onClick={() => navigate(`/clientes/${cliente.id}/contatos`)}>Ver contatos</button>
-        <button className="adicionar" onClick={handleAddContact}>Adicionar Contato</button>
+        <button className="excluir" onClick={() => handleDelete(cliente.id)}>
+          Excluir
+        </button>
+        <button
+          className="editar"
+          onClick={() => navigate(`/editar/${cliente.id}`)}
+        >
+          Editar
+        </button>
+        <button
+          className="ver"
+          onClick={() => navigate(`/clientes/${cliente.id}/contatos`)}
+        >
+          Ver contatos
+        </button>
+        <button className="adicionar" onClick={handleAddContact}>
+          Adicionar Contato
+        </button>
       </div>
     </div>
-  );  
+  );
 };
 
 export default ItemCliente;

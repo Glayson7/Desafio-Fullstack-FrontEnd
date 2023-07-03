@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import api from './api';
-import ItemCliente from './ItemCliente';
-import { useNavigate } from 'react-router-dom';
-import './Clientes.css';
+import React, { useEffect, useState } from "react";
+import api from "./api";
+import ItemCliente from "./ItemCliente";
+import { useNavigate } from "react-router-dom";
+import "./Clientes.css";
 
 const Clientes = () => {
   const [clientes, setClientes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchClientes = async () => {
       try {
-        const response = await api.get('/clientes/');
+        const response = await api.get("/client");
         setClientes(response.data);
         setIsLoading(false);
       } catch (error) {
-        console.log('Erro ao buscar clientes:', error);
-        setError('Ocorreu um erro ao buscar os clientes.');
+        console.log("Erro ao buscar clientes:", error);
+        setError("Ocorreu um erro ao buscar os clientes.");
         setIsLoading(false);
       }
     };
@@ -28,17 +28,17 @@ const Clientes = () => {
 
   const handleDelete = async (id) => {
     try {
-      await api.delete(`/clientes/${id}/`);
+      await api.delete(`/client/${id}`);
 
-      const response = await api.get('/clientes/');
+      const response = await api.get("/client");
       setClientes(response.data);
     } catch (error) {
-      console.error('Algo deu errado!', error);
+      console.error("Algo deu errado!", error);
     }
   };
 
   const handleAddCliente = () => {
-    navigate('/adicionar');
+    navigate("/adicionar");
   };
 
   if (isLoading) {
@@ -57,7 +57,11 @@ const Clientes = () => {
       </button>
       <div className="clientes__lista">
         {clientes.map((cliente) => (
-          <ItemCliente key={cliente.id} cliente={cliente} handleDelete={handleDelete} />
+          <ItemCliente
+            key={cliente.id}
+            cliente={cliente}
+            handleDelete={handleDelete}
+          />
         ))}
       </div>
     </div>

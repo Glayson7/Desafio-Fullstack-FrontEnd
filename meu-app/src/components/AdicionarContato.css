@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap");
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   background: #f3f3f3;
 }
 
@@ -52,7 +52,7 @@ input {
 
 button {
   color: #fff;
-  background-color: #6D83F2;
+  background-color: #6d83f2;
   border: none;
   border-radius: 5px;
   padding: 0.75rem;
@@ -67,10 +67,10 @@ button:hover {
 }
 
 button:last-child {
-  background-color: #9EA3B0;
+  background-color: #9ea3b0;
   margin-top: 0.5rem;
 }
 
 button:last-child:hover {
-  background-color: #878C9A;
+  background-color: #878c9a;
 }
